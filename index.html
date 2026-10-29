@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IndexedDB Lock Repro</title>
+</head>
+
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+        import { getAuth, initializeAuth, indexedDBLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "<YOUR_API_KEY>",
+          authDomain: "<YOUR_AUTH_DOMAIN>",
+          projectId: "<YOUR_PROJECT_ID>",
+          storageBucket: "<YOUR_STORAGE_BUCKET>",
+          messagingSenderId: "<YOUR_MESSAGING_SENDER_ID>",
+          appId: "<YOUR_APP_ID>"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = initializeAuth(app, { persistence: indexedDBLocalPersistence });
+
+        console.log("Auth initialized, waiting for state change...");
+        onAuthStateChanged(auth, (user) => {
+            console.log("Auth state changed! User ID:", user ? user.uid : "None");
+        });
+    </script>
+</body>
+
+</html>
